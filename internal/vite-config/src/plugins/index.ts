@@ -1,5 +1,8 @@
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import AutoImport from 'unplugin-auto-import/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import Components from 'unplugin-vue-components/vite';
 import { type PluginOption } from 'vite';
 import purgeIcons from 'vite-plugin-purge-icons';
 import DevTools from 'vite-plugin-vue-devtools';
@@ -55,6 +58,16 @@ async function createPlugins({ isBuild, root, enableMock, compress, enableAnalyz
   if (enableMock) {
     vitePlugins.push(configMockPlugin({ isBuild }));
   }
+
+  // Element-Plus
+  vitePlugins.push(
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
+  );
 
   return vitePlugins;
 }
